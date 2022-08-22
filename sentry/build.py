@@ -55,7 +55,7 @@ elif sys.platform == "win32":
     os.system('cp include/sentry.h ../build/include/.')
 
     # Copy the binary
-    os.system('cp defaultbuild/crashpad_build/handler/crashpad_handler.exe ../build/bin/.')
+    os.system('cp defaultbuild/crashpad_build/handler/Debug/crashpad_handler.exe ../build/bin/.')
 else:
     # Build on Linux
     # TODO: implement
