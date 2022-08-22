@@ -13,7 +13,6 @@ jobs:
     strategy:
       matrix:
         os: [macos-12, windows-2022, ubuntu-20.04]
-        config: [Debug, Release]
       fail-fast: false
     runs-on: ${{ matrix.os }}
     steps:
@@ -47,6 +46,11 @@ jobs:
 
       - name: Download node.js source code
         run: python -m nodejs.download
+
+      - name: Copy the icutrim hacky fix file
+        run: |
+          rm archive/tools/icu/icutrim.py
+          cp nodejs/hacks/icutrim.py archive/tools/icu/icutrim.py
 
       - name: Build the libraries
         run: python -m nodejs.build
