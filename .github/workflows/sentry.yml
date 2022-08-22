@@ -1,4 +1,4 @@
-name: Build a new sentry libraries release with both debug / release libraries
+name: Build Sentry
 
 on:
   workflow_dispatch:

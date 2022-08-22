@@ -7,7 +7,6 @@ import zipfile
 
 def process(version):
     # Download the file
-    # TODO: get input for the version
     urllib.request.urlretrieve("https://github.com/getsentry/sentry-native/releases/download/{}/sentry-native.zip".format(version), "archive.zip")
     if not os.path.isfile("archive.zip"):
         raise ValueError("missing_archive_file")
