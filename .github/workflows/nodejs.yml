@@ -57,7 +57,7 @@ jobs:
 
       - name: Archive
         run: |
-          zipname=$(python -m sentry.archive)
+          zipname=$(python -m nodejs.archive)
           echo "::set-output name=zipname::$zipname"
         shell: bash
         id: archive
