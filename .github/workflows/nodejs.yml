@@ -86,8 +86,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: sentry-${{ github.event.inputs.version }}
-          release_name: sentry-${{ github.event.inputs.version }}
+          tag_name: nodejs-${{ github.event.inputs.version }}
+          release_name: nodejs-${{ github.event.inputs.version }}
           
       - name: Upload release assets
         uses: csexton/release-asset-action@v2
