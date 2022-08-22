@@ -27,13 +27,6 @@ def build(mode):
     # Jump inside the build folder
     os.chdir("archive")
 
-    if sys.platform == "darwin":
-        if mode == "Debug":
-            subprocess.check_call([ sys.executable, 'configure.py', '--ninja', '--debug' ] + flags)
-            subprocess.check_call(['ninja', '-C', 'out/Debug'])
-        elif mode == "Release":
-            subprocess.check_call([ sys.executable, 'configure.py', '--ninja' ] + flags)
-            subprocess.check_call(['ninja', '-C', 'out/Release'])
     if sys.platform == "win32":
         env = os.environ.copy()
         env['config_flags'] = ' '.join(flags)
@@ -47,6 +40,14 @@ def build(mode):
                 ['cmd', '/c', 'vcbuild.bat', 'release', 'x86', 'small-icu'],
                 env=env
             )
+    else:
+        if mode == "Debug":
+            subprocess.check_call([ sys.executable, 'configure.py', '--ninja', '--debug' ] + flags)
+            subprocess.check_call(['ninja', '-C', 'out/Debug'])
+        elif mode == "Release":
+            subprocess.check_call([ sys.executable, 'configure.py', '--ninja' ] + flags)
+            subprocess.check_call(['ninja', '-C', 'out/Release'])
+    
 
     # Get back to previous directory
     os.chdir("..")
