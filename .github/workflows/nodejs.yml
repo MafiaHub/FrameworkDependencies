@@ -45,7 +45,7 @@ jobs:
         if: runner.os == 'Linux'
 
       - name: Download node.js source code
-        run: python -m nodejs.download
+        run: python -m nodejs.download ${{ github.event.inputs.version }}
 
       - name: Copy the icutrim hacky fix file
         run: |
