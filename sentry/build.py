@@ -22,7 +22,10 @@ os.chdir("archive")
 
 if sys.platform == "darwin":
     # Build universal binaries on MacOS
-    os.system('cmake -B defaultbuild -DCMAKE_OSX_ARCHITECTURES="arm64;x86_64" -DSENTRY_BACKEND=crashpad -DBUILD_SHARED_LIBS=OFF')
+    arch = "x86_64"
+    if os.uname().nodename == "MacBook-Pro-de-Enguerrand.local":
+        arch = "arm64;x86_64"
+    os.system('cmake -B defaultbuild -DCMAKE_OSX_ARCHITECTURES="{}" -DSENTRY_BACKEND=crashpad -DBUILD_SHARED_LIBS=OFF'.format(arch))
     os.system('cmake --build defaultbuild --parallel')
 
     # Copy the built files to the destination folder
