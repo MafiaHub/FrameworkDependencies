@@ -35,14 +35,12 @@ jobs:
 
       - name: Build
         run: |
-          cd sentry
-          python download.py ${{ github.event.inputs.version }}
-          python build.py
+          python -m sentry.download.py ${{ github.event.inputs.version }}
+          python -m sentry.build.py
       
       - name: Archive
         run: |
-          cd sentry
-          zipname=$(python archive.py)
+          zipname=$(python -m sentry.archive.py)
           echo "::set-output name=zipname::$zipname"
         shell: bash
         id: archive
