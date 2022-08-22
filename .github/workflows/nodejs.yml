@@ -44,3 +44,9 @@ jobs:
       - name: Install ninja on Ubuntu
         run: sudo apt-get install -y ninja-build
         if: runner.os == 'Linux'
+
+      - name: Download node.js source code
+        run: python -m nodejs.download
+
+      - name: Build the libraries
+        run: python -m nodejs.build
