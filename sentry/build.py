@@ -39,7 +39,7 @@ if sys.platform == "darwin":
     os.system('cp defaultbuild/crashpad_build/snapshot/libcrashpad_snapshot.a ../build/lib/darwin_x64/.')
     os.system('cp defaultbuild/crashpad_build/tools/libcrashpad_tools.a ../build/lib/darwin_x64/.')
     os.system('cp defaultbuild/crashpad_build/util/libcrashpad_util.a ../build/lib/darwin_x64/.')
-    os.system('cp defaultbuild/libsentry.a ../build/lib/.')
+    os.system('cp defaultbuild/libsentry.a ../build/lib/darwin_x64/.')
 
     # Copy the include
     os.system('cp include/sentry.h ../build/include/.')

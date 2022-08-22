@@ -38,3 +38,17 @@ jobs:
           cd sentry
           python download.py ${{ github.event.inputs.version }}
           python build.py
+      
+      - name: Archive
+        run: |
+          cd sentry
+          zipname=$(python archive.py)
+          echo "::set-output name=zipname::$zipname"
+        shell: bash
+        id: archive
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.archive.outputs.zipname }}
+          path: ${{ steps.archive.outputs.zipname }}
