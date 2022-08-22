@@ -2,17 +2,24 @@ assert __name__ == "__main__"
 
 import urllib.request
 import os
+import sys
 import zipfile
 
-# Download the file
-# TODO: get input for the version
-urllib.request.urlretrieve("https://github.com/getsentry/sentry-native/releases/download/0.5.0/sentry-native.zip", "archive.zip")
-if not os.path.isfile("archive.zip"):
-    raise ValueError("missing_archive_file")
+def process(version):
+    # Download the file
+    # TODO: get input for the version
+    urllib.request.urlretrieve("https://github.com/getsentry/sentry-native/releases/download/{}/sentry-native.zip".format(version), "archive.zip")
+    if not os.path.isfile("archive.zip"):
+        raise ValueError("missing_archive_file")
 
-# Unzip the archive
-with zipfile.ZipFile("archive.zip", "r") as zip_ref:
-    zip_ref.extractall("archive")
+    # Unzip the archive
+    with zipfile.ZipFile("archive.zip", "r") as zip_ref:
+        zip_ref.extractall("archive")
 
-# Delete the downloaded file
-os.remove("archive.zip")
+    # Delete the downloaded file
+    os.remove("archive.zip")
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        raise ValueError('missing_version_argument')
+    process(sys.argv[1])
