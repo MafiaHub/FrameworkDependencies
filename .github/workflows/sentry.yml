@@ -60,6 +60,11 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v2
 
+      - name: Prepare zips
+        run: |
+          mkdir zips
+          mv ./*/*.zip ./zips
+
       - name: Create release
         id: create_release
         uses: actions/create-release@v1
@@ -68,6 +73,7 @@ jobs:
         with:
           tag_name: sentry-${{ github.event.inputs.version }}
           release_name: sentry-${{ github.event.inputs.version }}
+          
       - name: Upload release assets
         uses: csexton/release-asset-action@v2
         with:
