@@ -18,6 +18,7 @@ if not os.path.isdir("build"):
         os.mkdir("build/lib/darwin_x64")
     elif sys.platform == "win32":
         os.mkdir("build/bin/win_32")
+        os.mkdir("build/lib/win_32")
         os.mkdir("build/lib/win_32/Debug")
         os.mkdir("build/lib/win_32/Release")
 
