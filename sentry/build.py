@@ -39,7 +39,24 @@ if sys.platform == "darwin":
 
 elif sys.platform == "win32":
     # Build on Window
-    pass
+    os.system('cmake -B defaultbuild -DSENTRY_BACKEND=crashpad -DBUILD_SHARED_LIBS=OFF')
+    os.system('cmake --build defaultbuild --parallel')
+
+    # Copy the built files to the destination folder
+    os.system('cp defaultbuild/crashpad_build/client/Debug/libcrashpad_client.lib ../build/lib/.')
+    os.system('cp defaultbuild/crashpad_build/handler/Debug/libcrashpad_handler_lib.lib ../build/lib/.')
+    os.system('cp defaultbuild/crashpad_build/minidump/Debug/libcrashpad_minidump.lib ../build/lib/.')
+    os.system('cp defaultbuild/crashpad_build/snapshot/Debug/libcrashpad_snapshot.lib ../build/lib/.')
+    os.system('cp defaultbuild/crashpad_build/tools/Debug/libcrashpad_tools.lib ../build/lib/.')
+    os.system('cp defaultbuild/crashpad_build/util/Debug/libcrashpad_util.lib ../build/lib/.')
+    os.system('cp defaultbuild/Debug/sentry.lib ../build/lib/.')
+
+    # Copy the include
+    os.system('cp include/sentry.h ../build/include/.')
+
+    # Copy the binary
+    os.system('cp defaultbuild/crashpad_build/handler/crashpad_handler.exe ../build/bin/.')
 else:
     # Build on Linux
+    # TODO: implement
     pass
