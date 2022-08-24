@@ -7,8 +7,8 @@ import subprocess
 import shutil
 import glob
 
-flags = ['--with-intl=small-icu']
-additionalDebugFlags = ['--debug-nghttp2', '--debug-lib']
+flags = []
+additionalDebugFlags = []
 buildModes = ['Debug', 'Release']
 
 nodeSrcFolder = "archive"
@@ -32,20 +32,20 @@ def build(mode):
         env['config_flags'] = ' '.join(flags)
         if mode == "Debug":
             subprocess.check_call(
-                ['cmd', '/c', 'vcbuild.bat', 'debug', 'debug-nghttp2', 'x86', 'small-icu'],
+                ['cmd', '/c', 'vcbuild.bat', 'debug', 'dll', 'x64', 'vs2019', 'no-cctest'],
                 env=env
             )
         elif mode == "Release":
             subprocess.check_call(
-                ['cmd', '/c', 'vcbuild.bat', 'release', 'x86', 'small-icu'],
+                ['cmd', '/c', 'vcbuild.bat', 'release', 'dll', 'x64', 'vs2019', 'no-cctest'],
                 env=env
             )
     else:
         if mode == "Debug":
-            subprocess.check_call([ sys.executable, 'configure.py', '--ninja', '--debug' ] + flags)
+            subprocess.check_call([ sys.executable, 'configure.py', '--ninja', '--shared', '--debug' ] + flags)
             subprocess.check_call(['ninja', '-C', 'out/Debug'])
         elif mode == "Release":
-            subprocess.check_call([ sys.executable, 'configure.py', '--ninja' ] + flags)
+            subprocess.check_call([ sys.executable, 'configure.py', '--ninja', '--shared' ] + flags)
             subprocess.check_call(['ninja', '-C', 'out/Release'])
     
 
