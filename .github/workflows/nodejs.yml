@@ -9,12 +9,9 @@ on:
         default: "14.17.5"
     
 jobs:
-  build:
-    strategy:
-      matrix:
-        os: [macos-12, windows-2019, ubuntu-20.04]
-      fail-fast: false
-    runs-on: ${{ matrix.os }}
+  build-mac-release:
+    name: Build the release on MacOS
+    runs-on: macos-12
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -22,42 +19,124 @@ jobs:
       - uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest
-        if: runner.os == 'macOS'
 
       - uses: actions/setup-python@v2
         with:
-          python-version: '3.9.2'
-
-      - name: Install nasm on Windows
-        run: choco install -y nasm
-        if: runner.os == 'Windows'
-
-      - name: Install GNU patch on Windows
-        run: choco install -y patch
-        if: runner.os == 'Windows'
-
+          python-version: '3.9'
+      
       - name: Install ninja on macOS
         run: HOMEBREW_NO_AUTO_UPDATE=1 brew install ninja
-        if: runner.os == 'macOS'
-
-      - name: Install ninja on Ubuntu
-        run: sudo apt-get install -y ninja-build
-        if: runner.os == 'Linux'
 
       - name: Download node.js source code
         run: python -m nodejs.download ${{ github.event.inputs.version }}
 
-      - name: Copy the icutrim hacky fix file
-        run: |
-          rm archive/tools/icu/icutrim.py
-          cp nodejs/hacks/icutrim.py archive/tools/icu/icutrim.py
-
       - name: Build the libraries
-        run: python -m nodejs.build
+        run: python -m nodejs.build Release
 
       - name: Archive
         run: |
-          zipname=$(python -m nodejs.archive)
+          zipname=$(python -m nodejs.archive Release)
+          echo "::set-output name=zipname::$zipname"
+        shell: bash
+        id: archive
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.archive.outputs.zipname }}
+          path: ${{ steps.archive.outputs.zipname }}
+  build-linux-release:
+    name: Build the release on Linux
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+      
+      - name: Install ninja on Ubuntu
+        run: sudo apt-get install -y ninja-build
+
+      - name: Download node.js source code
+        run: python -m nodejs.download ${{ github.event.inputs.version }}
+
+      - name: Build the libraries
+        run: python -m nodejs.build Release
+
+      - name: Archive
+        run: |
+          zipname=$(python -m nodejs.archive Release)
+          echo "::set-output name=zipname::$zipname"
+        shell: bash
+        id: archive
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.archive.outputs.zipname }}
+          path: ${{ steps.archive.outputs.zipname }}
+  build-windows-release:
+    name: Build the release on Windows
+    runs-on: windows-2019
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install nasm on Windows
+        run: choco install -y nasm
+
+      - name: Install GNU patch on Windows
+        run: choco install -y patch
+
+      - name: Download node.js source code
+        run: python -m nodejs.download ${{ github.event.inputs.version }}
+
+      - name: Build the libraries
+        run: python -m nodejs.build Release
+
+      - name: Archive
+        run: |
+          zipname=$(python -m nodejs.archive Release)
+          echo "::set-output name=zipname::$zipname"
+        shell: bash
+        id: archive
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.archive.outputs.zipname }}
+          path: ${{ steps.archive.outputs.zipname }}
+  build-windows-debug:
+    runs-on: windows-2019
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - uses: actions/setup-python@v2
+        with:
+          python-version: '3.9'
+
+      - name: Install nasm on Windows
+        run: choco install -y nasm
+
+      - name: Install GNU patch on Windows
+        run: choco install -y patch
+
+      - name: Download node.js source code
+        run: python -m nodejs.download ${{ github.event.inputs.version }}
+
+      - name: Build the libraries
+        run: python -m nodejs.build Debug
+
+      - name: Archive
+        run: |
+          zipname=$(python -m nodejs.archive Debug)
           echo "::set-output name=zipname::$zipname"
         shell: bash
         id: archive
