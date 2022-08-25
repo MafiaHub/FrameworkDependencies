@@ -148,7 +148,11 @@ jobs:
           path: ${{ steps.archive.outputs.zipname }}
   
   release:
-    needs: build
+    needs:
+      - build-windows-release
+      - build-windows-debug
+      - build-linux-release
+      - build-mac-release
     runs-on: ubuntu-latest
     steps:
       - name: Download artifacts
