@@ -5,9 +5,12 @@ import os
 import sys
 import tarfile
 
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
 def process(version):
     # Download the file
-    urllib.request.urlretrieve("https://nodejs.org/dist/v{}/node-v{}.tar.gz".format(version, version), "archive.tar.gz", ssl=False)
+    urllib.request.urlretrieve("https://nodejs.org/dist/v{}/node-v{}.tar.gz".format(version, version), "archive.tar.gz")
     if not os.path.isfile("archive.tar.gz"):
         raise ValueError("missing_archive_file")
 
