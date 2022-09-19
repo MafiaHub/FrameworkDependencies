@@ -96,11 +96,6 @@ jobs:
 
       - name: Install GNU patch on Windows
         run: choco install -y patch
-        
-      - name: Install VS 2022
-        run: |
-          choco install -y visualstudio2022buildtools
-          choco install -y visualstudio2022-workload-vctools
 
       - name: Download node.js source code
         run: python -m nodejs.download ${{ github.event.inputs.version }}
@@ -138,11 +133,6 @@ jobs:
 
       - name: Install GNU patch on Windows
         run: choco install -y patch
-        
-      - name: Install VS 2022
-        run: |
-          choco install -y visualstudio2022buildtools
-          choco install -y visualstudio2022-workload-vctools
 
       - name: Download node.js source code
         run: python -m nodejs.download ${{ github.event.inputs.version }}
