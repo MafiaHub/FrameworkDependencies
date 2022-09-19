@@ -113,7 +113,7 @@ jobs:
           name: ${{ steps.archive.outputs.zipname }}
           path: ${{ steps.archive.outputs.zipname }}
   build-windows-debug:
-    runs-on: windows-2019
+    runs-on: win-self
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
