@@ -87,6 +87,9 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9'
+    
+      - name: Update CA
+        run: pip install python-certifi-win32
 
       - name: Install nasm on Windows
         run: choco install -y nasm
@@ -113,7 +116,7 @@ jobs:
           name: ${{ steps.archive.outputs.zipname }}
           path: ${{ steps.archive.outputs.zipname }}
   build-windows-debug:
-    runs-on: win-self
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -121,6 +124,9 @@ jobs:
       - uses: actions/setup-python@v2
         with:
           python-version: '3.9'
+          
+      - name: Update CA
+        run: pip install python-certifi-win32
 
       - name: Install nasm on Windows
         run: choco install -y nasm
