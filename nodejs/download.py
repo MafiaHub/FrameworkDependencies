@@ -7,7 +7,7 @@ import tarfile
 
 def process(version):
     # Download the file
-    urllib.request.urlretrieve("https://nodejs.org/dist/v{}/node-v{}.tar.gz".format(version, version), "archive.tar.gz")
+    urllib.request.urlretrieve("https://nodejs.org/dist/v{}/node-v{}.tar.gz".format(version, version), "archive.tar.gz", ssl=False)
     if not os.path.isfile("archive.tar.gz"):
         raise ValueError("missing_archive_file")
 
