@@ -79,7 +79,7 @@ jobs:
           path: ${{ steps.archive.outputs.zipname }}
   build-windows-release:
     name: Build the release on Windows
-    runs-on: windows-2019
+    runs-on: self-hosted
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
